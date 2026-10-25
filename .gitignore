@@ -1,0 +1,25 @@
+# Public repo: allowlist the website only. Research material in this folder
+# (android/ APK, reference/ archive, REA evidence, screenshots) stays local.
+/*
+!/.gitignore
+!/AGENTS.md
+!/README.md
+!/index.html
+!/vite.config.ts
+!/tsconfig.json
+!/package.json
+!/pnpm-lock.yaml
+!/deploy.htaccess
+!/site.webmanifest
+!/robots.txt
+!/redeploy.php
+!/src/
+!/public/
+!/assets/
+!/dist/
+
+node_modules/
+*.tsbuildinfo
+.env
+.env.*
+*.log

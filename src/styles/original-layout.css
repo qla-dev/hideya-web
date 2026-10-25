@@ -1,0 +1,2200 @@
+/* SCRAM landing page. Tokens, sizes and timings follow design_handoff_landing_page/README.md. */
+
+:root {
+  --red: #ec3013;
+  --red-text: #ae1800; /* small red text on light grounds: the main red fails contrast there */
+  --splash: #ff3131; /* the logo's red, as in the app's launch screen and splash */
+  --ink: #201e1d;
+  --ground: #f3f2f2;
+  --ink-2: #444141;
+  --ink-3: #605d5d;
+  --ink-4: #7d7979;
+  --line: #d7d3d3;
+  --fill: #eae7e7;
+  --on-dark-2: #bab6b6;
+  --pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --archivo: "Archivo", system-ui, sans-serif;
+  --sys:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui,
+    sans-serif;
+  --gutter: clamp(20px, 5vw, 80px);
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sys);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+a {
+  color: var(--red-text);
+}
+::selection {
+  background: #ffc4b8;
+  color: var(--ink);
+}
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+.on-red :focus-visible {
+  outline-color: #fff;
+}
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Type */
+
+.x {
+  font-family: var(--archivo);
+  font-stretch: 125%;
+  font-weight: 800;
+}
+.c {
+  font-family: var(--archivo);
+  font-stretch: 62.5%;
+  font-weight: 800;
+}
+.eyebrow {
+  font-family: var(--archivo);
+  font-stretch: 125%;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--red-text);
+}
+.h2 {
+  margin: 0;
+  font-size: clamp(52px, 7.4vw, 124px);
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+}
+.lede {
+  margin: 0;
+  max-width: 380px;
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* Buttons */
+
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.btn {
+  height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  border-radius: 18px;
+  font-family: var(--archivo);
+  font-stretch: 125%;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 0.25s var(--pop),
+    background 0.2s;
+}
+.btn:hover {
+  transform: scale(1.04);
+}
+.btn:active {
+  transform: scale(0.96);
+}
+.btn-lg {
+  height: 58px;
+  padding: 0 24px;
+  border-radius: 20px;
+  font-size: 17px;
+}
+.btn-white {
+  background: #fff;
+  color: var(--red-text);
+}
+.btn-outline {
+  box-shadow: inset 0 0 0 2px #fff;
+  color: #fff;
+}
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.btn-ink {
+  background: var(--ink);
+  color: #fff;
+}
+
+/* Logo: five letter layers, each the whole logo frame with one letter drawn. Each pivots on its
+   own letter's bottom-centre. From assets/images/scram-logo-master.svg; the M has the runner cut out. */
+
+.logo {
+  position: relative;
+  aspect-ratio: 1260 / 466;
+}
+.logo-l {
+  position: absolute;
+  inset: 0;
+  background: 0 0 / 100% 100% no-repeat;
+}
+.l-s {
+  background-image: url(../../assets/logo/s.svg);
+  transform-origin: 8.94% 100%;
+}
+.l-c {
+  background-image: url(../../assets/logo/c.svg);
+  transform-origin: 26.58% 100%;
+}
+.l-r {
+  background-image: url(../../assets/logo/r.svg);
+  transform-origin: 44.51% 100%;
+}
+.l-a {
+  background-image: url(../../assets/logo/a.svg);
+  transform-origin: 62.13% 100%;
+}
+.l-m {
+  background-image: url(../../assets/logo/m.svg);
+  transform-origin: 85.8% 100%;
+}
+
+/* Launch splash: the app's "Skid in, scram out" (splash 1b), played once on load. */
+
+.splash {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+}
+.splash-on .splash {
+  display: block;
+}
+.splash-red {
+  position: absolute;
+  inset: 0;
+  background: var(--splash);
+}
+.splash-box {
+  --sw: min(72vw, 600px);
+  position: absolute;
+  left: calc(50% - var(--sw) / 2);
+  top: calc(50% - var(--sw) * 466 / 2520);
+  width: var(--sw);
+  aspect-ratio: 1260 / 466;
+}
+.splash-logo {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+}
+/* Frame 0 is plain red, like the app's launch screen. The script shows the letters as they skid in. */
+.splash-logo:not(.go) {
+  visibility: hidden;
+}
+/* Rows sit on the logo band; the script moves each line's left edge to the screen's. */
+.splash-line {
+  position: absolute;
+  left: 0;
+  height: clamp(2px, calc(var(--sw) / 145), 4px);
+  width: 0;
+  background: #fff;
+  transform: translateX(-200vw);
+  transform-origin: 0 50%;
+}
+
+/* Hero letters and copy wait off-stage until their entrance starts (or the fallback timer in <head>). */
+.pre .hero-logo .logo-l,
+.pre .hero .speed,
+.pre .hero-copy {
+  visibility: hidden;
+}
+
+/* Nav */
+
+.nav {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 100;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 8px 0 22px;
+  border-radius: 20px;
+  color: #fff;
+  background: rgba(243, 242, 242, 0);
+  transition:
+    background 0.35s,
+    color 0.35s,
+    box-shadow 0.35s;
+}
+.nav[data-theme="dark"] {
+  color: var(--ground);
+}
+.nav[data-theme="light"] {
+  color: var(--ink);
+  background: rgba(243, 242, 242, 0.88);
+  box-shadow: 0 8px 28px rgba(32, 30, 29, 0.1);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.nav-logo {
+  flex: none;
+  display: block;
+  width: 94px;
+  height: 35px;
+  color: inherit;
+  background: currentColor;
+  -webkit-mask: url(../../assets/logo/scram.svg) left center / contain no-repeat;
+  mask: url(../../assets/logo/scram.svg) left center / contain no-repeat;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+/* Links that don't fit wrap onto a second row, which is clipped: only the CTA is sure to stay. */
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  height: 40px;
+  overflow: hidden;
+  gap: 2px;
+  min-width: 0;
+}
+.nav-links a {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-links a:hover {
+  background: rgba(127, 127, 127, 0.16);
+}
+.nav-cta {
+  flex: none;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--red-text);
+  font-family: var(--archivo);
+  font-stretch: 125%;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.35s,
+    color 0.35s,
+    transform 0.25s var(--pop);
+}
+.nav[data-theme="dark"] .nav-cta,
+.nav[data-theme="light"] .nav-cta {
+  background: var(--red);
+  color: #fff;
+}
+.nav-cta:hover {
+  transform: scale(1.05);
+}
+.nav-cta:active {
+  transform: scale(0.96);
+}
+
+/* 1. Hero + How it works: one pinned section */
+
+.pin-a {
+  position: relative;
+  height: 640vh;
+}
+.anchor {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+}
+#top {
+  top: 0;
+}
+#how {
+  top: 172vh;
+}
+.stick {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+.stick-a {
+  background: var(--ground);
+}
+
+.steps-ui {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.45s;
+}
+.steps-ui.on {
+  opacity: 1;
+}
+.steps-left,
+.steps-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(45vw - min(18.5vh, 171px) - 56px);
+}
+.steps-left {
+  left: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 112px 0 6vh;
+}
+.steps-head {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ticks {
+  display: flex;
+  gap: 6px;
+}
+.tick {
+  height: 6px;
+  flex: 0 0 28px;
+  border-radius: 3px;
+  background: var(--line);
+  transition:
+    background 0.3s,
+    flex-basis 0.5s var(--pop);
+}
+.tick.done {
+  background: var(--red);
+}
+.tick.on {
+  flex-basis: 64px;
+  background: var(--red);
+}
+.nums {
+  position: relative;
+  height: min(44vh, 26vw);
+}
+.num {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: min(50vh, 30vw);
+  line-height: 0.76;
+  letter-spacing: -0.02em;
+  color: var(--red);
+  transform-origin: 0 100%;
+  opacity: 0;
+  transform: translateY(22%) scale(0.9);
+  transition:
+    opacity 0.3s,
+    transform 0.6s var(--pop);
+}
+.num.ink {
+  color: var(--ink);
+}
+.num.past {
+  transform: translateY(-18%) scale(0.9);
+}
+.num.on {
+  opacity: 1;
+  transform: none;
+}
+
+.steps-right {
+  right: var(--gutter);
+  display: flex;
+  align-items: center;
+}
+.txts {
+  position: relative;
+  width: 100%;
+  height: 340px;
+}
+.txt {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  opacity: 0;
+  transform: translateY(calc(-50% + 40px));
+  transition:
+    opacity 0.3s,
+    transform 0.6s var(--pop);
+}
+.txt.past {
+  transform: translateY(calc(-50% - 40px));
+}
+.txt.on {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+.txt h3 {
+  margin: 0;
+  font-size: clamp(32px, 3.6vw, 60px);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.txt p {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: 400px;
+  text-wrap: pretty;
+}
+
+/* The phone: a 402 × 874 screen under the frame image (450 × 920 with the side buttons; the body is
+   432 × 902.5). The frame's screen opening is transparent and carries the Dynamic Island. Scaled by the script. */
+.phone {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 450px;
+  height: 920px;
+  transform: translate(-50%, -50%) scale(0.8);
+}
+.phone::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 8.5px;
+  width: 432px;
+  height: 902.5px;
+  border-radius: 80px;
+  box-shadow: 0 50px 90px rgba(32, 30, 29, 0.22);
+}
+/* The opening's corners are a squircle; 60 keeps the screen's corners tucked under the bezel. */
+.screen {
+  position: absolute;
+  left: 24px;
+  top: 23px;
+  z-index: 1;
+  width: 402px;
+  height: 874px;
+  border-radius: 60px;
+  overflow: hidden;
+  background: var(--ground);
+  color: var(--ink);
+}
+.phone-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.sb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 29;
+  display: flex;
+  gap: 154px;
+  align-items: center;
+  justify-content: center;
+  padding: 21px 24px 19px;
+  color: #000;
+  transition: color 0.3s;
+}
+.sb.light {
+  color: #fff;
+}
+.sb > span {
+  flex: 1;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sb-time {
+  font-weight: 590;
+  font-size: 17px;
+  line-height: 22px;
+  padding-top: 1.5px;
+}
+.sb-icons {
+  gap: 7px;
+  padding-top: 1px;
+}
+.sb svg {
+  fill: currentColor;
+  display: block;
+}
+
+.scr {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  transition:
+    opacity 0.35s,
+    transform 0.6s var(--pop);
+}
+.scr.past {
+  transform: translateY(-30px) scale(0.96);
+}
+.scr.on {
+  opacity: 1;
+  transform: none;
+}
+.map {
+  position: absolute;
+  inset: 0;
+  background: url(../../assets/map.svg) center / cover no-repeat;
+}
+.lbl {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.sheet {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  background: #fff;
+  border-radius: 34px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 12px 30px rgba(32, 30, 29, 0.14);
+}
+.kv {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.kv .x {
+  font-size: 21px;
+  letter-spacing: -0.03em;
+}
+.pill-row {
+  position: absolute;
+  top: 64px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pill {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 14px;
+}
+
+/* Step 1 · Host: the map slides under a fixed zone, then the zone steps up in size. */
+.host-map {
+  inset: -70px;
+  will-change: transform;
+}
+.host-ring {
+  position: absolute;
+  left: 61px;
+  top: 220px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 4px solid var(--red);
+  background: rgba(236, 48, 19, 0.1);
+  transform: scale(0.69);
+  transition: transform 0.5s var(--pop);
+}
+.host-pin {
+  position: absolute;
+  left: 194px;
+  top: 353px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--red);
+  border: 3px solid var(--ground);
+  box-shadow: 0 3px 10px rgba(45, 43, 43, 0.16);
+}
+.zone-val {
+  display: inline-block;
+  transform-origin: 0 70%;
+}
+
+/* Step 2 · Join */
+.scr-join {
+  background: var(--ground);
+  padding: 72px 20px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.code {
+  display: flex;
+  gap: 7px;
+}
+.code > div {
+  flex: 1;
+  height: 60px;
+  border-radius: 14px;
+  background: #fff;
+  border: 2px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+.code span {
+  opacity: 0;
+  transform: scale(0.3);
+  transition:
+    opacity 0.2s,
+    transform 0.45s var(--pop);
+}
+.code span.on {
+  opacity: 1;
+  transform: none;
+}
+.opts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.opt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  border-radius: 24px;
+  transition:
+    transform 0.45s var(--pop),
+    box-shadow 0.3s;
+}
+.opt > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.opt .x {
+  font-size: 26px;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.opt > div > span:last-child {
+  font-size: 15px;
+}
+.opt i {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid currentColor;
+  transition: background 0.2s;
+}
+.opt-h {
+  background: var(--red);
+  color: #fff;
+}
+.opt-r {
+  background: var(--ink);
+  color: #fff;
+}
+.opt-x {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.opt-x.on {
+  transform: scale(1.03);
+  box-shadow:
+    inset 0 0 0 2px var(--ink),
+    0 0 0 4px var(--ground),
+    0 0 0 7px var(--red);
+}
+.opt-x.on i {
+  background: var(--red);
+}
+.fair {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.3s,
+    transform 0.5s var(--pop);
+}
+.fair.on {
+  opacity: 1;
+  transform: none;
+}
+.fair-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  gap: 3px;
+}
+.fair span {
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.cta-dark {
+  margin-top: auto;
+  height: 56px;
+  border-radius: 20px;
+  background: var(--ink);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+/* Step 3 · Scatter */
+.scr-run {
+  background: var(--ink);
+  color: #fff;
+  padding: 78px 26px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.scr-run .lbl {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--on-dark-2);
+}
+.run-big {
+  font-size: 128px;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+.run-sub {
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--line);
+  max-width: 320px;
+}
+.head {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.head-timer {
+  font-size: 96px;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.head-track {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--ink-2);
+  overflow: hidden;
+}
+.head-bar {
+  height: 100%;
+  width: 100%;
+  background: var(--red);
+  border-radius: 4px;
+}
+
+/* Step 4 · Hunt */
+.hunt-ring {
+  position: absolute;
+  left: 61px;
+  top: 250px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 3px solid var(--red);
+  background: rgba(236, 48, 19, 0.06);
+}
+.at {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.ping-ring {
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+}
+.ping-dot {
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 3px solid #fff;
+}
+.tag {
+  position: absolute;
+  left: 14px;
+  top: -13px;
+  white-space: nowrap;
+  display: flex;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 11px;
+  box-shadow: 0 1px 2px rgba(45, 43, 43, 0.14);
+}
+.tag b {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.tag span {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.mate {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  background: var(--red);
+  border: 3px solid #fff;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(32, 30, 29, 0.25);
+}
+.hunt-head {
+  position: absolute;
+  top: 60px;
+  left: 12px;
+  right: 12px;
+  border-radius: 26px;
+  background: var(--red);
+  color: #fff;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hunt-head > .x {
+  font-size: 30px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.hunt-head > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.hunt-head .lbl {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: #fff;
+}
+.hunt-head .timer {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.hunt-sheet {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 20px 22px;
+  border-radius: 32px;
+}
+.hunt-sheet .x {
+  font-size: 28px;
+  letter-spacing: -0.03em;
+}
+.tag-note {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 11px 18px;
+  border-radius: 18px;
+  background: var(--fill);
+  text-align: right;
+}
+.tag-note b {
+  font-size: 15px;
+  font-weight: 700;
+}
+.tag-note span {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+/* The red hero field. The script clips it down onto the phone's screen as you scroll. */
+.red {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: var(--red);
+  clip-path: inset(0 round 0);
+}
+.hero {
+  position: absolute;
+  inset: 0;
+  padding: 100px clamp(20px, 4vw, 56px) clamp(24px, 5vh, 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: clamp(24px, 5vh, 56px);
+  color: #fff;
+}
+.hero-logo {
+  margin: 0;
+  width: min(100%, 122vh, max(220px, calc((100vh - 480px) * 2.7)));
+  flex: none;
+}
+.speed {
+  position: absolute;
+  left: 0;
+  width: 55%;
+  height: 3px;
+  background: #fff;
+  transform: translateX(-120vw);
+  transform-origin: 0 50%;
+}
+.hero-copy {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px 48px;
+}
+.hero-copy-l {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.hero-tag {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.hero h2 {
+  margin: 0;
+  font-size: clamp(30px, 3.2vw, 50px);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.hero-copy-r {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+}
+.hero-snacks {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.4;
+}
+.hero-small {
+  font-size: 14px;
+}
+/* The frame's Dynamic Island, redrawn over the red once it has shrunk onto the screen. */
+.red-island {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 124.5px;
+  height: 35.5px;
+  border-radius: 18px;
+  background: #000;
+  opacity: 0;
+  transform-origin: 0 0;
+}
+.phone-splash {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 290px;
+  height: 107px;
+  opacity: 0;
+  transform-origin: 50% 100%;
+  background: url(../../assets/logo/scram.svg) 0 0 / 100% 100% no-repeat;
+}
+
+/* 2. Countdown */
+
+.pin-b {
+  position: relative;
+  height: 320vh;
+  background: var(--ink);
+}
+.stick-b {
+  background: var(--ink);
+  color: var(--ground);
+}
+.cd-head {
+  position: absolute;
+  left: var(--gutter);
+  top: 112px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 560px;
+  padding-right: 20px;
+}
+.cd-head .eyebrow {
+  color: var(--on-dark-2);
+}
+.cd-title {
+  margin: 0;
+  font-size: clamp(34px, 4vw, 64px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+.cd-ticks {
+  position: absolute;
+  left: var(--gutter);
+  bottom: clamp(28px, 6vh, 64px);
+  display: flex;
+  gap: 6px;
+}
+.cd-ticks i {
+  width: 26px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--ink-2);
+  transition: background 0.2s;
+}
+.cd-ticks i.on {
+  background: var(--ground);
+}
+.count {
+  position: absolute;
+  right: var(--gutter);
+  bottom: -6vh;
+  font-size: min(96vh, 60vw);
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  color: var(--ground);
+  transform-origin: 50% 100%;
+  font-variant-numeric: tabular-nums;
+}
+.ready {
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  color: #fff;
+  clip-path: circle(0 at 72% 64%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 var(--gutter) clamp(28px, 7vh, 72px);
+}
+.ready-text {
+  font-size: min(27vh, 13.5vw);
+  line-height: 0.82;
+  letter-spacing: -0.01em;
+  display: flex;
+  flex-direction: column;
+}
+.ready-text > span {
+  display: flex;
+  flex-wrap: wrap;
+}
+.rl {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  font-style: normal;
+}
+.sp {
+  display: inline-block;
+  width: 0.22em;
+}
+
+/* 3. Pick a side */
+
+.band {
+  padding: clamp(60px, 10vh, 120px) clamp(14px, 2.4vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.band-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 0 clamp(6px, 2.6vw, 44px);
+}
+#sides {
+  padding-top: clamp(100px, 14vh, 160px);
+}
+.sides {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.side-wrap {
+  flex: 1 1 420px;
+  display: flex;
+}
+.side {
+  flex: 1;
+  min-height: min(76vh, 720px);
+  border-radius: 44px;
+  color: #fff;
+  padding: clamp(24px, 3vw, 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  transition:
+    transform 0.5s var(--pop),
+    opacity 0.3s;
+}
+.side-h {
+  background: var(--red);
+}
+.side-r {
+  background: var(--ink);
+}
+.side-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.side-top > span:first-child {
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.you {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 14px;
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 0.2s,
+    transform 0.5s var(--pop);
+}
+.you.on {
+  opacity: 1;
+  transform: none;
+}
+.side-h .you {
+  color: var(--red-text);
+}
+.side-r .you {
+  color: var(--ink);
+}
+.big {
+  font-size: clamp(68px, 9.4vw, 164px);
+  line-height: 0.86;
+  letter-spacing: -0.06em;
+  transform-origin: 0 100%;
+}
+.side-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 460px;
+}
+.side-body p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.side-body .x {
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+.rand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 156px;
+  height: 156px;
+  border-radius: 50%;
+  border: none;
+  background: var(--ground);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 0 0 8px var(--ground);
+  transition: transform 0.35s var(--pop);
+}
+.rand:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+}
+.rand:active {
+  transform: translate(-50%, -50%) scale(0.94);
+}
+.rand .x {
+  font-size: 22px;
+  letter-spacing: -0.03em;
+}
+.rand > span:last-child {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+/* 4. Features */
+
+#features {
+  padding-top: clamp(40px, 8vh, 100px);
+}
+.feat-head {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.card {
+  border-radius: 40px;
+  padding: clamp(22px, 2.4vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  min-height: 500px;
+}
+.card-ink {
+  background: var(--ink);
+  color: #fff;
+}
+.card-white {
+  background: #fff;
+}
+.card-red {
+  background: var(--red);
+  color: #fff;
+}
+.card-title {
+  font-size: clamp(28px, 2.6vw, 42px);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+.card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+.card-white p {
+  color: var(--ink-2);
+}
+.card-ink p {
+  color: var(--line);
+}
+.panel {
+  position: relative;
+  flex: 1;
+  min-height: 300px;
+  border-radius: 26px;
+  overflow: hidden;
+}
+
+.f-ping {
+  flex: 7 1 540px;
+  min-height: 520px;
+}
+.f-ping .map {
+  filter: invert(0.9);
+}
+.f-ping .card-text {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px 40px;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.f-ping .card-title {
+  max-width: 420px;
+}
+.f-ping p {
+  max-width: 400px;
+}
+.pg-ghost {
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+.pg-ring {
+  position: absolute;
+  left: -12px;
+  top: -12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  opacity: 0;
+}
+.pg-dot {
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid var(--red);
+}
+.pg-chip {
+  position: absolute;
+  left: 16px;
+  top: -42px;
+  white-space: nowrap;
+  display: flex;
+  gap: 6px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 13px;
+  transform-origin: 0 100%;
+}
+.pg-chip b {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.pg-chip span {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.corner {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(32, 30, 29, 0.8);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.f-zone {
+  flex: 5 1 380px;
+  min-height: 520px;
+}
+.zone-ring,
+.zone-next {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: 250px;
+  height: 250px;
+  margin: -125px 0 0 -125px;
+  border-radius: 50%;
+}
+.zone-ring {
+  border: 3px solid var(--red);
+  background: rgba(236, 48, 19, 0.08);
+}
+.zone-next {
+  border: 2px dashed rgba(236, 48, 19, 0.85);
+  opacity: 0;
+}
+.runner-at {
+  position: absolute;
+  left: calc(50% + 66px);
+  top: calc(54% - 62px);
+  width: 0;
+  height: 0;
+}
+.live-ring {
+  position: absolute;
+  left: -18px;
+  top: -18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(236, 48, 19, 0.25);
+  opacity: 0;
+}
+.runner-dot {
+  position: absolute;
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 3px solid #fff;
+}
+.live-chip {
+  position: absolute;
+  left: 14px;
+  top: -34px;
+  padding: 5px 9px;
+  border-radius: 9px;
+  background: var(--red);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+}
+.zone-warn {
+  position: absolute;
+  left: 50%;
+  top: 16px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0;
+}
+
+.f-radio,
+.f-team,
+.f-pocket {
+  flex: 4 1 320px;
+}
+.chat {
+  flex: 1;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.bub {
+  max-width: 78%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-self: flex-start;
+  transform-origin: 0 100%;
+}
+.bub > span:first-child {
+  font-size: 12px;
+  font-weight: 700;
+  padding-left: 6px;
+}
+.bub > span:last-child {
+  padding: 12px 16px;
+  border-radius: 20px 20px 20px 6px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 600;
+}
+.bub.mine {
+  align-self: flex-end;
+  align-items: flex-end;
+  transform-origin: 100% 100%;
+}
+.bub.mine > span:first-child {
+  padding: 0 6px 0 0;
+}
+.bub.mine > span:last-child {
+  border-radius: 20px 20px 6px 20px;
+  background: var(--ink);
+  color: #fff;
+}
+.sys {
+  align-self: center;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0 12px 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.f-team .map {
+  background-position: 30% 60%;
+}
+.you-big {
+  position: absolute;
+  left: 52%;
+  top: 46%;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 4px solid #fff;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(32, 30, 29, 0.25);
+}
+.f-team .mate {
+  box-shadow: 0 4px 10px rgba(32, 30, 29, 0.2);
+}
+
+.lock {
+  flex: 1;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lock-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.lock-time {
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.buzz {
+  margin-top: 8px;
+  padding: 7px 11px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 2px var(--ground);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.notes {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.note {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 20px;
+  background: var(--ink-2);
+}
+.note-icon {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.note > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.note-app {
+  font-size: 12px;
+  color: var(--on-dark-2);
+  font-weight: 600;
+}
+.note b {
+  font-size: 14px;
+  font-weight: 700;
+}
+.note-body {
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--fill);
+}
+
+.f-rules {
+  flex: 8 1 560px;
+  min-height: 420px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 36px 56px;
+  align-items: flex-end;
+}
+.f-rules .card-text {
+  flex: 1 1 260px;
+}
+.sliders {
+  flex: 1.4 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.slider-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.slider-top > span:first-child {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.slider-top .x {
+  font-size: 22px;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.track {
+  position: relative;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--fill);
+}
+.track-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  border-radius: 5px;
+  background: var(--red);
+}
+.knob {
+  position: absolute;
+  left: 30%;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 0 3px var(--ink),
+    0 4px 10px rgba(32, 30, 29, 0.2);
+}
+.ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.f-players {
+  flex: 4 1 320px;
+  min-height: 420px;
+  justify-content: space-between;
+  gap: 20px;
+  overflow: hidden;
+}
+.three {
+  font-size: 240px;
+  line-height: 0.78;
+  letter-spacing: -0.03em;
+}
+.f-players .card-text {
+  gap: 8px;
+}
+
+/* 5. Privacy */
+
+#privacy {
+  padding: clamp(20px, 4vh, 40px) clamp(14px, 2.4vw, 36px)
+    clamp(80px, 12vh, 140px);
+}
+.privacy {
+  border-radius: 48px;
+  background: #fff;
+  padding: clamp(28px, 5vw, 88px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px 64px;
+}
+.privacy-l {
+  flex: 1 1 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-self: flex-start;
+}
+.privacy-l h2 {
+  margin: 0;
+  font-size: clamp(44px, 5.4vw, 92px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+.privacy-l p {
+  max-width: 400px;
+}
+.rows {
+  flex: 1.2 1 400px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rows li {
+  display: flex;
+  gap: 22px;
+  padding: 30px 0;
+  border-top: 2px solid var(--ink);
+}
+.rows li:last-child {
+  border-bottom: 2px solid var(--ink);
+}
+.rows li > span {
+  font-size: 64px;
+  line-height: 0.8;
+  color: var(--red);
+  min-width: 40px;
+}
+.rows li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rows li .x {
+  font-size: clamp(24px, 2.4vw, 36px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+.rows li p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+/* 6. Close */
+
+#get {
+  background: var(--red);
+  color: #fff;
+  min-height: 100vh;
+  padding: 120px clamp(20px, 4vw, 56px) 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  overflow: hidden;
+}
+.close-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+}
+.close-l {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.close-l .eyebrow {
+  color: #fff;
+}
+.close-sub {
+  font-size: clamp(28px, 3vw, 48px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.close-r {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+  max-width: 100%;
+}
+.close-r > span {
+  font-size: 15px;
+}
+/* The iPhone waitlist: a white box and an ink button, the same height as the buttons beside it. */
+.wait {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 460px;
+  max-width: 100%;
+}
+.wait-label {
+  font-size: 17px;
+  line-height: 1.35;
+}
+.wait-row {
+  display: flex;
+  gap: 8px;
+}
+.wait-input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: 58px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 20px;
+  background: #fff;
+  color: var(--ink);
+  font: 500 17px var(--sys);
+}
+.wait-input::placeholder {
+  color: var(--ink-4);
+}
+.wait-input:focus-visible {
+  outline-offset: 2px;
+}
+.wait-row .btn {
+  border: 0;
+  cursor: pointer;
+  flex: none;
+}
+.wait-row .btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+}
+.wait-note {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.wait-note a {
+  color: inherit;
+}
+.wait-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+/* After a sign-up the box and button give way to the answer. */
+.wait.done .wait-row {
+  display: none;
+}
+.wait.done .wait-label {
+  font-size: 24px;
+}
+.wait.done .wait-note {
+  font-size: 17px;
+}
+.close-logo {
+  width: min(100%, 118vh, max(220px, calc((100vh - 460px) * 2.7)));
+}
+/* The right padding keeps the footer clear of the scroll-progress pill (right 16px, 168px wide). */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px calc(208px - clamp(20px, 4vw, 56px)) 0 0;
+  border-top: 2px solid #fff;
+  font-size: 14px;
+}
+/* The negative margin grows the tap target without moving the line. */
+.foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+}
+.foot-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 0;
+  margin: -8px 0;
+  color: inherit;
+  text-decoration: none;
+}
+.foot-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ig svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+/* Scroll progress: the runner from the logo, running along a track */
+
+.progress {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 90;
+  width: 168px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(243, 242, 242, 0.92);
+  box-shadow: 0 6px 20px rgba(32, 30, 29, 0.16);
+  pointer-events: none;
+}
+.progress::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 11px;
+  height: 2px;
+  background: var(--ink);
+}
+.runner {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  width: 22px;
+  height: 26.4px;
+}
+.runner i {
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  transform-origin: 50% 100%;
+  -webkit-mask: url(../../assets/logo/runner.svg) 0 0 / 100% 100% no-repeat;
+  mask: url(../../assets/logo/runner.svg) 0 0 / 100% 100% no-repeat;
+}
+
+/* Narrow screens: phone on top, the step's words underneath */
+
+@media (max-width: 959px) {
+  .steps-left,
+  .steps-right {
+    left: 20px;
+    right: 20px;
+    width: auto;
+    bottom: auto;
+    padding: 0;
+  }
+  .steps-left {
+    top: calc(var(--pbot, 60vh) + 18px);
+  }
+  .nums {
+    display: none;
+  }
+  .steps-head {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .steps-right {
+    top: calc(var(--pbot, 60vh) + 50px);
+    bottom: 0;
+    align-items: flex-start;
+  }
+  .txts {
+    height: 100%;
+  }
+  .txt {
+    top: 0;
+    gap: 10px;
+    transform: translateY(24px);
+  }
+  .txt.past {
+    transform: translateY(-24px);
+  }
+  .txt.on {
+    transform: none;
+  }
+  .txt h3 {
+    font-size: clamp(26px, 7vw, 40px);
+  }
+  .txt p {
+    font-size: 16px;
+    line-height: 1.4;
+    max-width: 520px;
+  }
+  .side {
+    min-height: min(62vh, 560px);
+  }
+  .card,
+  .f-ping,
+  .f-zone {
+    min-height: 440px;
+  }
+  .count {
+    font-size: min(60vh, 95vw);
+    bottom: calc(clamp(28px, 6vh, 64px) + 24px);
+  }
+  .ready-text {
+    font-size: min(27vh, 16vw);
+  }
+  .foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* The side cards stack below this width: leave room at the seam for the Random button. */
+@media (max-width: 897px) {
+  .side-h {
+    padding-bottom: 84px;
+  }
+  .side-r {
+    padding-top: 84px;
+  }
+  .rand {
+    width: 132px;
+    height: 132px;
+  }
+}
+
+@media (max-width: 560px) {
+  .nav {
+    padding-left: 18px;
+  }
+  .nav-links {
+    display: none;
+  }
+  .progress {
+    display: none;
+  }
+  .foot {
+    padding-right: 0;
+  }
+  .rows li {
+    gap: 16px;
+  }
+  .rows li > span {
+    font-size: 52px;
+    min-width: 30px;
+  }
+  .three {
+    font-size: 200px;
+  }
+  .f-rules {
+    gap: 28px;
+  }
+}
+
+/* Without the script the pinned sections can't play, so they collapse to one screen each. */
+html:not(.js) .pin-a,
+html:not(.js) .pin-b {
+  height: auto;
+}
+html:not(.js) .steps-ui,
+html:not(.js) .phone {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .num,
+  .txt,
+  .scr,
+  .tick,
+  .code span,
+  .opt,
+  .fair,
+  .host-ring,
+  .you,
+  .side,
+  .btn,
+  .nav-cta,
+  .rand {
+    transition-timing-function: ease-out !important;
+    transition-duration: 0.2s !important;
+  }
+}
