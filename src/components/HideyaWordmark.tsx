@@ -43,8 +43,8 @@ export function HideyaWordmark({ trails = false }: { trails?: boolean }) {
                     <path d="M0 0H564V480H380V564H0Z" />
                   </clipPath>
                   <linearGradient id={`${symbolId}-foot`} x1="385" y1="480" x2="475" y2="554" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#fd2c35" />
-                    <stop offset="1" stopColor="#fd2e36" />
+                    <stop stopColor="#ff6a13" />
+                    <stop offset="1" stopColor="#ff6a13" />
                   </linearGradient>
                 </defs>
                 <image

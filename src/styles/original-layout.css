@@ -1169,6 +1169,10 @@ a {
   display: flex;
   flex-wrap: wrap;
 }
+.rw {
+  display: inline-flex;
+  white-space: nowrap;
+}
 .rl {
   display: inline-block;
   transform-origin: 50% 100%;

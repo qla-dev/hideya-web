@@ -428,18 +428,26 @@ export function initializeLandingPage() {
 
   // "Ready or not / Here we come" drops in a letter at a time, so each line becomes one <i> per
   // letter (and a narrow one per space). The page holds the lines as plain words, to translate.
+  // Each word's letters sit in one unbreakable .rw, so a line only wraps between words.
   function splitReadyLetters() {
     $$(".ready-text > span").forEach((line) => {
-    const chars = [...line.textContent.trim()];
+    const words = line.textContent.trim().split(/\s+/);
     line.textContent = "";
-    chars.forEach((ch) => {
-      const i = document.createElement("i");
-      if (/\s/.test(ch)) i.className = "sp";
-      else {
+    words.forEach((word, index) => {
+      if (index > 0) {
+        const space = document.createElement("i");
+        space.className = "sp";
+        line.append(space);
+      }
+      const group = document.createElement("span");
+      group.className = "rw";
+      [...word].forEach((ch) => {
+        const i = document.createElement("i");
         i.className = "rl";
         i.textContent = ch;
-      }
-      line.append(i);
+        group.append(i);
+      });
+      line.append(group);
     });
     });
   }
