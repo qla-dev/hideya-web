@@ -183,6 +183,12 @@ html[data-language="de"] .language-switcher select { background-image: url("data
 .btns { max-width: 100%; }
 .btn { max-width: 100%; min-width: 0; white-space: normal; text-align: center; }
 .btn:disabled { opacity: 1; cursor: default; }
+/* Store buttons share one white style with a platform icon. Colours are set
+   explicitly so iOS Safari's disabled-button styling (grey fill, faded text)
+   cannot apply while the store links are still placeholders. */
+.btn-store { display: inline-flex; align-items: center; justify-content: center; gap: 10px; -webkit-appearance: none; appearance: none; border: 0; }
+.btn-store, .btn-store:disabled { background: #fff; color: var(--red-text); -webkit-text-fill-color: var(--red-text); }
+.store-icon { width: 1.25em; height: 1.25em; flex: none; fill: currentColor; }
 .card, .side, .card-text, .privacy-l, .rows, .rows li > div { min-width: 0; max-width: 100%; }
 .card-text, .side-body, .rows li > div { overflow-wrap: break-word; }
 .cd-title { white-space: pre-line; }
