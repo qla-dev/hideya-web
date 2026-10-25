@@ -11,9 +11,20 @@ if (!existsSync(resolve(frontend, "package.json"))) {
   console.log("build-play: ../frontend not found, keeping the committed dist/play.");
   process.exit(0);
 }
-rmSync(out, { recursive: true, force: true });
-execSync(`pnpm exec expo export --platform web --output-dir "${out}" --clear`, {
-  cwd: frontend,
-  stdio: "inherit",
-  env: { ...process.env, HIDEYA_WEB_BASE_PATH: "/hideya/play", NODE_ENV: "production" },
-});
+// The export occasionally dies midway; retry once, and never leave a partial dist/play to commit.
+for (let attempt = 1; ; attempt++) {
+  rmSync(out, { recursive: true, force: true });
+  try {
+    execSync(`pnpm exec expo export --platform web --output-dir "${out}" --clear`, {
+      cwd: frontend,
+      stdio: "inherit",
+      env: { ...process.env, HIDEYA_WEB_BASE_PATH: "/hideya/play", NODE_ENV: "production" },
+    });
+  } catch {}
+  if (existsSync(resolve(out, "index.html")) && existsSync(resolve(out, "_expo/static/js/web"))) break;
+  if (attempt === 2) {
+    console.error("build-play: export failed twice; dist/play is incomplete. Do not commit it.");
+    process.exit(1);
+  }
+  console.log("build-play: export incomplete, retrying.");
+}
