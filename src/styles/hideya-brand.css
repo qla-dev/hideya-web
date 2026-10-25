@@ -394,3 +394,27 @@
   .hero .btns { display: flex; flex-wrap: wrap; }
   .hero .btn { font-size: 13px; min-height: 40px; }
 }
+
+/* Power-ups (Hideya addition, after the game kit) */
+#power-ups { padding: clamp(20px, 4vh, 40px) clamp(14px, 2.4vw, 36px) 0; }
+.powerups { border-radius: 48px; background: var(--ink); color: #fff; padding: clamp(28px, 5vw, 88px); display: flex; flex-direction: column; gap: clamp(28px, 4vw, 48px); }
+.powerups-head { display: flex; flex-direction: column; gap: 20px; max-width: 760px; }
+.powerups-head .eyebrow { color: #ff9a5c; }
+.powerups-head h2 { margin: 0; font-size: clamp(40px, 5.2vw, 88px); line-height: 0.92; letter-spacing: -0.05em; text-wrap: balance; color: #fff; }
+.powerups-head .lede { margin: 0; color: #ffffffcc; max-width: 560px; }
+.pu-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.pu-card { background: #ffffff12; border: 1px solid #ffffff1f; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.pu-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pu-mark { width: 56px; height: 56px; border-radius: 50%; background: #ff6a13; color: #fff; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.pu-mark svg { width: 30px; height: 30px; }
+.pu-team { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffffb3; }
+.pu-card .x, .pu-extra .x { font-size: clamp(24px, 2.2vw, 32px); line-height: 1.02; letter-spacing: -0.04em; color: #fff; }
+.pu-card p, .pu-extra p { margin: 0; font-size: 17px; line-height: 1.45; color: #ffffffcc; }
+.pu-extras { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.pu-extra { display: flex; gap: 20px; align-items: flex-start; border-top: 2px solid #ffffff33; padding-top: 24px; min-width: 0; }
+.pu-extra > div { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.pu-daily .pu-mark { background: #fff; color: #ff6a13; }
+@media (max-width: 640px) {
+  .powerups { padding: 24px; border-radius: 28px; }
+  .pu-extras { grid-template-columns: 1fr; }
+}

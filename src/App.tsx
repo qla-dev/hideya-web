@@ -7,6 +7,7 @@ import { HuntersCountdown } from "./components/HuntersCountdown";
 import { RolePicker } from "./components/RolePicker";
 import { Features } from "./components/Features";
 import { Privacy } from "./components/Privacy";
+import { PowerUps } from "./components/PowerUps";
 import { GetTheApp } from "./components/GetTheApp";
 import { ProgressRunner } from "./components/ProgressRunner";
 import { initializeLandingPage } from "./motion/original-motion";
@@ -57,6 +58,7 @@ export default function App() {
         <HuntersCountdown />
         <RolePicker />
         <Features />
+        <PowerUps />
         <Privacy />
         <GetTheApp />
       </main>
