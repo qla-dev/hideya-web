@@ -4,6 +4,11 @@ DirectoryIndex index.html
   RewriteEngine On
   # Served from dist/hideya/web/dist as https://qla.dev/hideya, so match files
   # relative to this directory, not DOCUMENT_ROOT.
+  # /play without the slash: redirect here, before mod_dir adds the slash
+  # itself from the internal dist/ path. The second rule repairs that bad URL
+  # for browsers that cached it.
+  RewriteRule ^play$ /hideya/play/ [R=301,L]
+  RewriteRule ^play/dist/ /hideya/play/ [R=301,L]
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
