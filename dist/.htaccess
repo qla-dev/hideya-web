@@ -8,6 +8,10 @@ DirectoryIndex index.html
   # itself from the internal dist/ path. The second rule repairs that bad URL
   # for browsers that cached it.
   RewriteRule ^play$ /hideya/play/ [R=301,L]
+  # Any folder without its slash (e.g. /play/chat): add it here, under /hideya,
+  # before mod_dir does it from the internal dist/ path.
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^(.*[^/])$ /hideya/$1/ [R=301,L]
   RewriteRule ^play/dist/ /hideya/play/ [R=301,L]
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
