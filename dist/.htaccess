@@ -9,6 +9,8 @@ DirectoryIndex index.html
   RewriteRule ^ - [L]
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.+?)/?$ $1.html [L]
+  # The browser app (dist/play): any other path inside it opens the app.
+  RewriteRule ^play(/.*)?$ play/index.html [L]
 </IfModule>
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
