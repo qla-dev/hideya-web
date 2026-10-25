@@ -7,8 +7,9 @@
     "typecheck": "tsc --noEmit",
     "check": "pnpm typecheck",
     "build:landing": "vite build",
-    "build": "vite build",
-    "preview": "python ../tools/serve_preview.py --site --port 8082"
+    "build": "node scripts/legal-pages.mjs && vite build",
+    "preview": "python ../tools/serve_preview.py --site --port 8082",
+    "legal": "node scripts/legal-pages.mjs"
   },
   "dependencies": {
     "react": "19.3.0",
