@@ -11,6 +11,7 @@ import { GetTheApp } from "./components/GetTheApp";
 import { ProgressRunner } from "./components/ProgressRunner";
 import { initializeLandingPage } from "./motion/original-motion";
 import { initializeLanguages } from "./language";
+import { initializeFitText } from "./fit-text";
 import "./styles/original-layout.css";
 import "./styles/hideya-brand.css";
 
@@ -20,6 +21,7 @@ export default function App() {
     document.documentElement.classList.add("js", "pre");
     if (!location.hash) document.documentElement.classList.add("splash-on");
     const stopLanguage = initializeLanguages();
+    const stopFit = initializeFitText();
     const stopMotion = initializeLandingPage();
     // React renders after the browser's first anchor lookup. Resolve direct
     // links once the complete original page exists, then let its scroll engine run.
@@ -42,6 +44,7 @@ export default function App() {
       cancelAnimationFrame(anchorFrame);
       stopMotion();
       stopLanguage();
+      stopFit();
       document.removeEventListener("click", onClick);
     };
   }, []);
