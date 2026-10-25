@@ -1,0 +1,10 @@
+{
+  "name": "Hideya",
+  "short_name": "Hideya",
+  "id": "./",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#160626",
+  "theme_color": "#160626",
+  "icons": [{ "src": "./assets/hideya/icon.png", "sizes": "564x564", "type": "image/png", "purpose": "any" }]
+}

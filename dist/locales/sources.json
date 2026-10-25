@@ -1,0 +1,52 @@
+[
+  {
+    "locale": "es",
+    "source": "https://scramhideandseek.com/es/",
+    "strings": 150
+  },
+  {
+    "locale": "pt",
+    "source": "https://scramhideandseek.com/pt/",
+    "strings": 150
+  },
+  {
+    "locale": "fr",
+    "source": "https://scramhideandseek.com/fr/",
+    "strings": 150
+  },
+  {
+    "locale": "de",
+    "source": "https://scramhideandseek.com/de/",
+    "strings": 150
+  },
+  {
+    "locale": "it",
+    "source": "https://scramhideandseek.com/it/",
+    "strings": 150
+  },
+  {
+    "locale": "nl",
+    "source": "https://scramhideandseek.com/nl/",
+    "strings": 150
+  },
+  {
+    "locale": "tr",
+    "source": "https://scramhideandseek.com/tr/",
+    "strings": 150
+  },
+  {
+    "locale": "ja",
+    "source": "https://scramhideandseek.com/ja/",
+    "strings": 150
+  },
+  {
+    "locale": "ko",
+    "source": "https://scramhideandseek.com/ko/",
+    "strings": 150
+  },
+  {
+    "locale": "zh",
+    "source": "https://scramhideandseek.com/zh/",
+    "strings": 150
+  }
+]
