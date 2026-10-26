@@ -13,6 +13,8 @@ DirectoryIndex index.html
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^(.*[^/])$ /hideya/$1/ [R=301,L]
   RewriteRule ^play/dist/ /hideya/play/ [R=301,L]
+  # A shared room link: /join/CODE opens the app on Join with the code in.
+  RewriteRule ^join/[A-Za-z0-9]+/?$ join.html [L]
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]

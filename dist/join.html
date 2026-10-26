@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>
+  // Served for /join/CODE: everything else on the site sits one level up.
+  document.write('<base href="' + location.pathname.replace(/join\/[^/]*\/?$/, "") + '">');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join a game · Hideya</title>
+<meta name="description" content="You're invited to a round of Hideya, real-life hide and seek with friends.">
+<meta property="og:title" content="Join my Hideya game">
+<meta property="og:description" content="Real-life hide and seek with friends. Tap to join the round.">
+<meta property="og:image" content="https://qla.dev/hideya/assets/hideya/icon.png">
+<link rel="icon" href="assets/hideya/icon.png" type="image/png">
+<style>
+@font-face { font-family: Fredoka; src: url("assets/hideya/Fredoka-Bold.ttf") format("truetype"); font-weight: 700; font-display: swap; }
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #160626; color: #f2ecf8; font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { width: 100%; max-width: 440px; padding: 40px 20px; text-align: center; }
+.icon { width: 96px; height: 96px; border-radius: 24px; }
+h1 { font: 700 34px/1.15 Fredoka, ui-rounded, sans-serif; margin: 20px 0 6px; color: #fff; }
+p { color: #bcaecd; margin: 0 0 24px; }
+.code { display: flex; gap: 8px; justify-content: center; margin: 0 0 28px; }
+.code span { width: 46px; height: 58px; display: flex; align-items: center; justify-content: center; border-radius: 14px; background: #2a0e47; font: 700 28px Fredoka, ui-rounded, sans-serif; color: #fff; }
+.button { display: block; width: 100%; padding: 16px; margin: 0 0 12px; border-radius: 999px; font-weight: 700; font-size: 17px; text-decoration: none; }
+.primary { background: #ff6a13; color: #fff; }
+.secondary { background: #2a0e47; color: #fff; }
+.note { font-size: 14px; margin-top: 12px; }
+</style>
+</head>
+<body>
+<main>
+  <img class="icon" src="assets/hideya/icon.png" alt="Hideya">
+  <h1 data-t="title">You're invited</h1>
+  <p data-t="text">Join the round with this code.</p>
+  <div class="code" id="code" aria-label="Game code"></div>
+  <a class="button primary" id="open" data-t="open">Open in Hideya</a>
+  <a class="button secondary" id="web" data-t="web">Play in your browser</a>
+  <p class="note" data-t="note">No app yet? The browser game works on any phone.</p>
+</main>
+<script>
+  // The code from /join/CODE, then the app (hideya://join?code=…) or the browser game with it filled in.
+  var code = (location.pathname.match(/join\/([A-Za-z0-9]+)/) || [])[1] || new URLSearchParams(location.search).get("code") || "";
+  code = code.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+  var app = "hideya://join" + (code ? "?code=" + code : "");
+  document.getElementById("open").href = app;
+  document.getElementById("web").href = "play/join" + (code ? "?code=" + code : "");
+  document.getElementById("code").innerHTML = code.split("").map(function (c) { return "<span>" + c + "</span>"; }).join("");
+
+  var copy = {
+    bs: { title: "Pozvan si", text: "Uđi u rundu s ovim kodom.", open: "Otvori u Hideya", web: "Igraj u pregledniku", note: "Nemaš aplikaciju? Igra u pregledniku radi na svakom telefonu." },
+    de: { title: "Du bist eingeladen", text: "Tritt der Runde mit diesem Code bei.", open: "In Hideya öffnen", web: "Im Browser spielen", note: "Noch keine App? Das Browserspiel läuft auf jedem Handy." },
+  };
+  var saved = null;
+  try { saved = localStorage.getItem("hideya.language"); } catch (e) { /* Private browsing can disable storage. */ }
+  var lang = (saved || navigator.language || "en").slice(0, 2);
+  if (copy[lang]) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-t]").forEach(function (el) { el.textContent = copy[lang][el.getAttribute("data-t")]; });
+  }
+
+  // On a phone, try the app straight away; the buttons stay for when it isn't installed.
+  if (code && /iPhone|iPad|Android/i.test(navigator.userAgent)) location.href = app;
+</script>
+</body>
+</html>
