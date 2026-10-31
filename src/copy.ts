@@ -132,7 +132,7 @@ export const messages = {
   "index.powerups.decoy.title": ["Decoy", "Mamac", "Köder"],
   "index.powerups.decoy.text": ["Pick a spot on the map. At the next ping the hunters see you there instead, and they never find out.", "Odaberi tačku na mapi. Na sljedećem pingu lovci te vide tamo i nikad ne saznaju.", "Wähle einen Punkt auf der Karte. Beim nächsten Ping sehen dich die Jäger dort und merken es nie."],
   "index.powerups.shrink.title": ["Shrink now", "Smanji sad", "Jetzt verkleinern"],
-  "index.powerups.shrink.text": ["Pull the next zone shrink forward to 30 seconds from now. Runners get a warning, then the ring closes.", "Pomjeri sljedeće smanjenje zone na 30 sekundi od sad. Skrivači dobiju upozorenje, pa se krug zatvara.", "Zieh die nächste Verkleinerung auf 30 Sekunden vor. Die Versteckten werden gewarnt, dann schließt sich der Ring."],
+  "index.powerups.shrink.text": ["Shrink the zone right now. The ring closes on every map at once, and the runners are told.", "Smanji zonu odmah. Krug se zatvara na svim mapama u istom trenutku, a skrivači dobiju obavijest.", "Verkleinere die Zone sofort. Der Ring schließt sich auf allen Karten gleichzeitig, und die Versteckten erfahren es."],
   "index.powerups.flare.title": ["Flare", "Raketa", "Leuchtrakete"],
   "index.powerups.flare.text": ["Fire an extra ping right now and see where every runner is. Only a Ghost stays hidden.", "Ispali dodatni ping odmah i vidi gdje je svaki skrivač. Samo Duh ostaje skriven.", "Lös sofort einen Extra-Ping aus und sieh, wo alle Versteckten sind. Nur ein Geist bleibt unsichtbar."],
   "index.powerups.pickup.title": ["Power-ups drop on the map", "Pojačanja padaju na mapu", "Power-ups landen auf der Karte"],
